@@ -1,0 +1,12 @@
+#define PAL_SIZE 256
+__constant__ uchar4 pal_1[PAL_SIZE]={{128,128,128,128}};
+
+void InitPal()
+{
+  uchar4 pal[PAL_SIZE], *p=pal;
+  for(int i=0; i<32; i++, p++) {p->x = 0; p->y = (i<<3); p->z = 255; p->w=0;}
+  for(int i=0; i<32; i++, p++) {p->x = 0; p->y = 255; p->z = 255-(i<<3); p->w=0;}
+  for(int i=0; i<64; i++, p++) {p->x = (i<<2); p->y = 255; p->z = 0; p->w=0;}
+  for(int i=0; i<128; i++, p++) {p->x = 255; p->y = 255-(i<<1); p->z = 0; p->w=0;}
+  cudaMemcpyToSymbol(pal_1,pal,sizeof(uchar4)*PAL_SIZE,0,cudaMemcpyHostToDevice); // CUDA > 5.0
+}

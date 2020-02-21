@@ -1,0 +1,2 @@
+uchar = unsigned char
+uchar4 = 4*unsigned char
